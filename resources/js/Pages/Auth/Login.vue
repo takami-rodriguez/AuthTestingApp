@@ -23,6 +23,7 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
+
 </script>
 
 <template>
@@ -32,7 +33,6 @@ const submit = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />
@@ -54,14 +54,47 @@ const submit = () => {
             </div>
 
             <div class="flex items-center justify-end mt-4">
+
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
                     Forgot your password?
                 </Link>
+
 
                 <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Log in
                 </PrimaryButton>
             </div>
+            <div class="flex items-center justify-center mt-12">
+                <Link :href="route('register')" class="underline text-md text-gray-600 hover:text-gray-900">
+                    Register new account
+                </Link>
+            </div>
+
+            <div class="flex items-center justify-center mt-12">
+
+                <table class="min-w-full divide-y divide-gray-300 ">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Email</th>
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Password</th>
+                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Account Type</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                    <tr>
+                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm text-left font-medium text-gray-900 sm:pl-6">admin@test.com</td>
+                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm text-left font-medium text-gray-900 sm:pl-6">password</td>
+                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-left text-gray-900 sm:pl-6">Administrator</td>
+                    </tr>
+                    <tr>
+                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm text-left font-medium text-gray-900 sm:pl-6">mclaughlin.crawford@example.org</td>
+                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm text-left font-medium text-gray-900 sm:pl-6">password</td>
+                        <td class="whitespace-nowrap py-3 pl-4 pr-3 text-sm font-medium text-left text-gray-900 sm:pl-6">Normal user</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </form>
     </GuestLayout>
 </template>

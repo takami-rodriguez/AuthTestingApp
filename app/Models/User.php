@@ -3,14 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
+use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, Impersonate;
+    use Uuid;
+
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +26,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'admin'
     ];
 
     /**
@@ -39,6 +45,27 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'id' =>  'string',
+        'created_at' =>'datetime:Y-m-d H:m:s',
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return bool
+     */
+    public function canImpersonate()
+    {
+        // For example
+        return $this->admin == 1;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canBeImpersonated()
+    {
+        // For example
+        return $this->can_be_impersonated == 0;
+    }
+
 }

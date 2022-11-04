@@ -11,8 +11,10 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-                ->name('register');
+//    Route::get('/', [AuthenticatedSessionController::class, 'create'])
+//        ->name('home');
+
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
@@ -32,6 +34,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.update');
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -51,6 +54,17 @@ Route::middleware('auth')->group(function () {
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
+    Route::get('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+        ->name('logout');
+    Route::get('/leave-impersonate', [\App\Http\Controllers\UserController::class,'leaveImpersonate'])->name('users.leave-impersonate');
+
+});
+
+Route::middleware(['auth','isAdmin'])->group(function () {
+    Route::post('/user/list',[\App\Http\Controllers\UserController::class,'getUserList'])->name('uses.list');
+    Route::get('/{user}/impersonate', [\App\Http\Controllers\UserController::class,'impersonate'])->name('users.impersonate');
+
 });
