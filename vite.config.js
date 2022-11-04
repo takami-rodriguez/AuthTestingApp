@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue';
 export default defineConfig({
     server: {
         https: true,
-        host: 'localhost',
     },
     plugins: [
         laravel({
